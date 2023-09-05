@@ -22,7 +22,16 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        "schoolinka-primary": "#3f5bf6"
+        "schoolinka-primary": "#3f5bf6",
+        "schoolinka-grey-200": "#eaecf0",
+        "schoolinka-grey-50": "#f9fafb",
+        "schoolinka-grey-300": "#d0d5dd",
+        "schoolinka-grey-500": "#667085",
+        "schoolinka-grey-600": "#475667",
+        "schoolinka-grey-900": "#101828",
+      },
+      content: {
+        "mark": "'\&#10003'"
       }
     },
     screens: {

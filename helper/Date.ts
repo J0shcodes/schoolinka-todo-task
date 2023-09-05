@@ -4,7 +4,6 @@ const getDate = (): string => {
   const year: string = today.toLocaleString("en-US", { year: "numeric" });
 
   const date: string = `${month} ${year}`;
-  console.log(date);
   return date;
 };
 
