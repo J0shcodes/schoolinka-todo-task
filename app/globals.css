@@ -25,3 +25,19 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+}
+
+.active {
+  background-color: #f9fafb;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  padding: 0.75rem 1.0625rem;
+}

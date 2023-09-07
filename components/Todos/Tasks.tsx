@@ -5,11 +5,14 @@ import fetchTodos from "@/helper/Todos";
 import { Todos } from "@/interfaces/Todos";
 
 interface TasksProps {
-  onEdit: (title: string) => void;
-  editTask: boolean;
+  onPreview: (title: string) => void;
+  previewTask: boolean;
 }
 
-const Tasks: FC<TasksProps> = ({ onEdit, editTask }) => {
+const Tasks: FC<TasksProps> = ({
+  onPreview,
+  previewTask,
+}) => {
   const [todos, setTodos] = useState<Todos[]>([]);
   const [error, setError] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -26,11 +29,12 @@ const Tasks: FC<TasksProps> = ({ onEdit, editTask }) => {
     if (Array.isArray(result)) {
       setTodos(result);
       setTotalPages(Math.ceil(todos.length / itemsPerPage));
+      console.log(totalPages);
     } else {
       setError(result);
       console.log(error);
     }
-  }, [setError, setTodos, error, todos.length]);
+  }, [setError, setTodos, error, todos.length, totalPages]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -51,7 +55,8 @@ const Tasks: FC<TasksProps> = ({ onEdit, editTask }) => {
   function todoClickHandler(id: number, title: string) {
     console.log(id);
     setSelectedTodo(id);
-    onEdit(title)
+    // onEdit(title)
+    onPreview(title);
   }
 
   return (
@@ -62,7 +67,7 @@ const Tasks: FC<TasksProps> = ({ onEdit, editTask }) => {
           <div
             key={todo.id}
             className={
-              todo.id && todo.id === selectedTodo
+              previewTask && todo.id === selectedTodo
                 ? "flex justify-between bg-[#eaedfe] px-[1.5rem] py-[1rem] mb-4"
                 : "flex justify-between bg-[#f9fafb] px-[1.5rem] py-[1rem] mb-4"
             }
@@ -101,7 +106,15 @@ const Tasks: FC<TasksProps> = ({ onEdit, editTask }) => {
           </div>
         ))}
       </div>
-      <div>Pagination</div>
+      <ReactPaginate
+        pageCount={10}
+        onPageChange={handlePageSelected}
+        forcePage={currentPage}
+        nextLabel={`Next ->`}
+        previousLabel={"<- Previous"}
+        containerClassName="container"
+        activeLinkClassName="active"
+      />
     </div>
   );
 };

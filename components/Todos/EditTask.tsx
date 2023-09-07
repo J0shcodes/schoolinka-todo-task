@@ -5,11 +5,12 @@ import TimerIcon from "@/public/icons/timer";
 import CalenderIcon from "@/public/icons/calender";
 import BellIcon from "@/public/icons/bell";
 
-interface AddTaskProps {
+interface EditTaskProps {
   onClose: () => void;
+  title: string;
 }
 
-const EditTaskComponent: FC<AddTaskProps> = ({ onClose }) => {
+const EditTaskComponent: FC<EditTaskProps> = ({ onClose, title }) => {
   return (
     <div className="bg-white border rounded-lg h-fit w-[24.6875rem] p-6">
       <div className="flex justify-between">
@@ -22,7 +23,7 @@ const EditTaskComponent: FC<AddTaskProps> = ({ onClose }) => {
       </div>
       <form className="mt-6">
         <div className="w-[21.625rem] h-[8.75rem]">
-          <textarea className="w-full h-full border rounded-lg outline-none resize-none py-[0.75rem] px-[0.875rem] border-schoolinka-grey-300 bg-schoolinka-grey-50" />
+          <textarea className="w-full h-full border rounded-lg outline-none resize-none py-[0.75rem] px-[0.875rem] border-schoolinka-grey-300 bg-schoolinka-grey-50" value={title} />
         </div>
         <div className="mt-6 flex justify-between">
           <button className="flex justify-between border border-solid border-schoolinka-grey-300 py-[0.625rem] px-[1rem] rounded-lg w-[6.25rem]">
