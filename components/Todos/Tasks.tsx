@@ -1,4 +1,11 @@
-import { useEffect, useState, useCallback, FC } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  FC,
+  MouseEventHandler,
+  ChangeEvent,
+} from "react";
 import ReactPaginate from "react-paginate";
 
 import fetchTodos from "@/helper/Todos";
@@ -7,17 +14,16 @@ import { Todos } from "@/interfaces/Todos";
 interface TasksProps {
   onPreview: (title: string) => void;
   previewTask: boolean;
+  onClose: () => void;
 }
 
-const Tasks: FC<TasksProps> = ({
-  onPreview,
-  previewTask,
-}) => {
+const Tasks: FC<TasksProps> = ({ onPreview, previewTask, onClose }) => {
   const [todos, setTodos] = useState<Todos[]>([]);
   const [error, setError] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [completedTask, setCompletedTask] = useState<number>();
   const [selectedTodo, setSelectedTodo] = useState<number>();
 
   const itemsPerPage = 10;
@@ -29,12 +35,11 @@ const Tasks: FC<TasksProps> = ({
     if (Array.isArray(result)) {
       setTodos(result);
       setTotalPages(Math.ceil(todos.length / itemsPerPage));
-      console.log(totalPages);
     } else {
       setError(result);
       console.log(error);
     }
-  }, [setError, setTodos, error, todos.length, totalPages]);
+  }, [setError, setTodos, error, todos.length]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -48,15 +53,23 @@ const Tasks: FC<TasksProps> = ({
     getTodos();
   }, [getTodos]);
 
-  if (isChecked) {
-    console.log("checked");
-  }
-
   function todoClickHandler(id: number, title: string) {
     console.log(id);
     setSelectedTodo(id);
-    // onEdit(title)
     onPreview(title);
+  }
+
+  // const completed: MouseEventHandler<HTMLInputElement> = (e) => {
+  //   e.st
+  // }
+
+  function markAsComplete(e: ChangeEvent<HTMLInputElement>, id: number) {
+    // e.stopPropagation();
+    // setIsChecked((prev) => !prev);
+    setIsChecked(true)
+    setSelectedTodo(0);
+    onClose();
+    setCompletedTask(id);
   }
 
   return (
@@ -82,20 +95,34 @@ const Tasks: FC<TasksProps> = ({
                   }
                   type="checkbox"
                   checked={isChecked}
-                  onChange={() => setIsChecked((prev) => !prev)}
+                  onChange={(e) => markAsComplete(e, todo.id)}
                 />
                 <span
                   className={
-                    isChecked
+                    isChecked && todo.id === completedTask
                       ? "w-[1.25rem] h-[1.25rem] border border-solid border-schoolinka-primary rounded-md absolute after:absolute after:content-[''] after:w-[0.583125rem] after:h-[0.40125rem] after:border-solid after:border-t-0 after:border-r-0 after:border-b-2 after:border-l-2 after:border-schoolinka-primary after:rotate-[-45deg] after:left-1 after:top-1 after:block"
                       : "w-[1.25rem] h-[1.25rem] border border-solid border-[#d0d5dd] rounded-md absolute after:absolute after:content-[''] after:w-[0.583125rem] after:h-[0.40125rem] after:border-solid after:border-2 after:border-schoolinka-primary after:rotate-[-45deg] after:left-1 after:top-1 after:hidden"
                   }
                 ></span>
                 {/* </label> */}
               </div>
-              <div>
-                <p className="text-sm text-schoolinka-grey-900">{todo.title}</p>
-                <p className="text-schoolinka-grey-600 text-sm">
+              <div className="">
+                <p
+                  className={
+                    isChecked && todo.id === completedTask
+                      ? "text-sm text-[#d0d5dd] line-through"
+                      : "text-sm text-schoolinka-grey-900 font-medium"
+                  }
+                >
+                  {todo.title}
+                </p>
+                <p
+                  className={
+                    isChecked && todo.id === completedTask
+                      ? "text-[#d0d5dd] text-sm line-through"
+                      : "text-schoolinka-grey-600 text-sm"
+                  }
+                >
                   10:30 am - 11:30 am
                 </p>
               </div>

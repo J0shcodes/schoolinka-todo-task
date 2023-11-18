@@ -7,9 +7,10 @@ import BellIcon from "@/public/icons/bell";
 
 interface AddTaskProps {
   onClose: () => void;
+  closeCalender: () => void;
 }
 
-const AddTaskComponent: FC<AddTaskProps> = ({ onClose }) => {
+const AddTaskComponent: FC<AddTaskProps> = ({ onClose, closeCalender }) => {
   return (
     <div className="bg-white border rounded-lg h-fit w-[24.6875rem] p-6">
       <div className="flex justify-between">
