@@ -3,8 +3,10 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFireStore } from "firebase/firestore";
 
+const FIREBASE_API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBdfHv8-_1J1ADAEGWRiQiEfjO0jEppfJs",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "schoolinka-todo.firebaseapp.com",
   projectId: "schoolinka-todo",
   storageBucket: "schoolinka-todo.appspot.com",
